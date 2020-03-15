@@ -18,7 +18,7 @@ const routes: Routes = [
     path: 'signup', component: SignupComponent
   },
   {
-    path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService], children: [
+    path: 'dashboard', component: DashboardComponent, children: [
       {
         path: 'manage', component: ManageComponent
       }

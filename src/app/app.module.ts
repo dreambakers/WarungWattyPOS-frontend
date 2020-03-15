@@ -9,6 +9,13 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { SignupComponent } from './signup/signup.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { ManageComponent } from './dashboard/manage/manage.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { UsersComponent } from './dashboard/manage/users/users.component';
+import { ItemsComponent } from './dashboard/manage/items/items.component';
+
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -23,10 +30,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDialogModule } from '@angular/material';
-import { SignupComponent } from './signup/signup.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { ManageComponent } from './dashboard/manage/manage.component';
-import { NavbarComponent } from './navbar/navbar.component';
+import { MatTableModule } from '@angular/material/table';
+import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
+import { AddUserComponent } from './dialogs/add-user/add-user.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +41,11 @@ import { NavbarComponent } from './navbar/navbar.component';
     SignupComponent,
     DashboardComponent,
     ManageComponent,
-    NavbarComponent
+    NavbarComponent,
+    UsersComponent,
+    ItemsComponent,
+    AddUserComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -59,9 +69,12 @@ import { NavbarComponent } from './navbar/navbar.component';
     MatSnackBarModule,
     DragDropModule,
     MatTabsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTableModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ConfirmDialogComponent, AddUserComponent]
+
 })
 export class AppModule { }

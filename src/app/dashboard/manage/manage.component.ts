@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ManageComponent implements OnInit {
 
+  selected = 'users';
+
   constructor() { }
 
   ngOnInit() {
