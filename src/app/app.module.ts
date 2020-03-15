@@ -33,6 +33,7 @@ import { MatDialogModule } from '@angular/material';
 import { MatTableModule } from '@angular/material/table';
 import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
 import { AddUserComponent } from './dialogs/add-user/add-user.component';
+import { AddItemComponent } from './dialogs/add-item/add-item.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { AddUserComponent } from './dialogs/add-user/add-user.component';
     UsersComponent,
     ItemsComponent,
     AddUserComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    AddItemComponent
   ],
   imports: [
     BrowserModule,
@@ -74,7 +76,7 @@ import { AddUserComponent } from './dialogs/add-user/add-user.component';
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [ConfirmDialogComponent, AddUserComponent]
+  entryComponents: [ConfirmDialogComponent, AddUserComponent, AddItemComponent]
 
 })
 export class AppModule { }
