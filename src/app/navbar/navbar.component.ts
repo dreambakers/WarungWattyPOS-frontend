@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UtilService } from '../services/util.service';
 
 @Component({
   selector: 'app-navbar',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  constructor(private utils: UtilService) { }
 
   ngOnInit() {
+  }
+
+  logout() {
+    this.utils.confirmDialog('Are you sure?', 'You will be logged out').subscribe(
+      res => {
+
+      }
+    )
   }
 
 }

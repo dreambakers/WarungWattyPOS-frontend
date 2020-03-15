@@ -7,14 +7,18 @@ import { AuthenticationService } from './authentication.service';
 })
 export class AuthGuardService implements CanActivate {
 
-  constructor(protected router: Router, private auth: AuthenticationService) { }
+  constructor(protected router: Router) { }
 
   canActivate() {
-    if (!this.auth.isAuthenticated()) {
+    if (!this.isAuthenticated()) {
       this.router.navigateByUrl('');
       return false;
     }
     return true;
+  }
+
+  isAuthenticated() {
+    return localStorage.getItem('authToken') ? true : false;
   }
 
 }

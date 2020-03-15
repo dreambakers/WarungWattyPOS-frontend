@@ -15,7 +15,9 @@ import { ManageComponent } from './dashboard/manage/manage.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { UsersComponent } from './dashboard/manage/users/users.component';
 import { ItemsComponent } from './dashboard/manage/items/items.component';
-
+import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
+import { AddUserComponent } from './dialogs/add-user/add-user.component';
+import { AddItemComponent } from './dialogs/add-item/add-item.component';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -31,9 +33,9 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDialogModule } from '@angular/material';
 import { MatTableModule } from '@angular/material/table';
-import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
-import { AddUserComponent } from './dialogs/add-user/add-user.component';
-import { AddItemComponent } from './dialogs/add-item/add-item.component';
+import { NewOrderComponent } from './new-order/new-order.component';
+import { ReceiptComponent } from './receipt/receipt.component';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,9 @@ import { AddItemComponent } from './dialogs/add-item/add-item.component';
     ItemsComponent,
     AddUserComponent,
     ConfirmDialogComponent,
-    AddItemComponent
+    AddItemComponent,
+    NewOrderComponent,
+    ReceiptComponent
   ],
   imports: [
     BrowserModule,
@@ -72,7 +76,8 @@ import { AddItemComponent } from './dialogs/add-item/add-item.component';
     DragDropModule,
     MatTabsModule,
     MatDialogModule,
-    MatTableModule
+    MatTableModule,
+    MatChipsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
