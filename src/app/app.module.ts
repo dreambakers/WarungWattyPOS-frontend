@@ -23,11 +23,19 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDialogModule } from '@angular/material';
+import { SignupComponent } from './signup/signup.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { ManageComponent } from './dashboard/manage/manage.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    SignupComponent,
+    DashboardComponent,
+    ManageComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

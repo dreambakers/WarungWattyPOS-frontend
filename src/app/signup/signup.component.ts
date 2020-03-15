@@ -12,15 +12,16 @@ export class SignupComponent implements OnInit {
 
   signupForm: FormGroup;
   submitted = false;
+  hide = true;
 
   constructor(private formBuilder: FormBuilder, private auth: AuthenticationService) { }
 
   ngOnInit() {
     this.signupForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
+      username: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]]
-    }, 
+    },
     {
       validator: PasswordValidation.MatchPassword // your validation method
     });

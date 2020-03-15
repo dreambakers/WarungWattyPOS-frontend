@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { UtilService } from './util.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ export class AuthenticationService {
 
   serverUrl = 'http://localhost:3000';
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, private utils: UtilService) { }
 
   authenticateUser(email: string, password: string, signUp = false) {
 
@@ -33,7 +34,7 @@ export class AuthenticationService {
         }
 
       }, errorResponse => {
-
+        this.utils.openSnackBar('An error occurred while logging in');
       });
   }
 
