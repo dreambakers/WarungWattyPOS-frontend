@@ -4,7 +4,8 @@
         <span class="ml-1" style="vertical-align: middle;">
             <span class="font-weight-bold">
                 Warung Watty
-            </span> | <small>Admin Panel</small>
+            </span>
+            <span *ngIf="userType">| <small>{{userType === 'admin' ? 'Admin' : 'User' }} Panel</small></span>
         </span>
     </a>
 

@@ -20,7 +20,6 @@ export class AuthenticationService {
         this.db.database.ref('users/' + result.user.uid).set({
           userType
         });
-        localStorage.setItem('user', JSON.stringify(result.user));
         this.router.navigate(['/dashboard']);
       }).catch((error) => {
         this.utils.openSnackBar('An error occurred while signing up');
@@ -31,7 +30,6 @@ export class AuthenticationService {
   signIn(email, password) {
     return this.afAuth.auth.signInWithEmailAndPassword(email, password)
       .then((result) => {
-        localStorage.setItem('user', JSON.stringify(result.user));
         this.router.navigate(['/dashboard']);
       }).catch((error) => {
         this.utils.openSnackBar('An error occurred while logging in');
@@ -40,11 +38,15 @@ export class AuthenticationService {
 
   logout() {
     localStorage.clear();
-    this.router.navigateByUrl('');
+    this.afAuth.auth.signOut().then(
+      res => {
+        this.router.navigateByUrl('');
+      }
+    );
   }
 
-  isAuthenticated() {
-    return localStorage.getItem('authToken') ? true : false;
+  getLoggedInUserType() {
+    return this.db.list(`users/${this.afAuth.auth.currentUser.uid}`).valueChanges()
   }
 
 }

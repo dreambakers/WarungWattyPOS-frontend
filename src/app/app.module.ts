@@ -40,7 +40,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
-import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
+import { AngularFireDatabase } from '@angular/fire/database';
+import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
 
 @NgModule({
   declarations: [
@@ -86,7 +87,7 @@ import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule
   ],
-  providers: [AngularFireDatabase],
+  providers: [AngularFireDatabase, AngularFireAuthGuard],
   bootstrap: [AppComponent],
   entryComponents: [ConfirmDialogComponent, AddUserComponent, AddItemComponent]
 
