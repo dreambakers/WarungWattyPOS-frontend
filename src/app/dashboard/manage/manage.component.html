@@ -1,0 +1,12 @@
+<div class="p-5">
+    <h3 class="mb-4">Manage</h3>
+
+    <mat-radio-group aria-label="Select an option" [(ngModel)]="selected">
+        <mat-radio-button value="users" class="mr-3">Users</mat-radio-button>
+        <mat-radio-button value="items">Meals/Items</mat-radio-button>
+    </mat-radio-group>
+
+
+    <app-users *ngIf="selected === 'users'"></app-users>
+    <app-items *ngIf="selected === 'items'"></app-items>
+</div>
