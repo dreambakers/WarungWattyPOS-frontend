@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
-import { AuthenticationService } from './authentication.service';
+import { FirebaseAuth } from '@angular/fire';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuardService implements CanActivate {
 
-  constructor(protected router: Router) { }
+  constructor(protected router: Router, private auth: FirebaseAuth) { }
 
   canActivate() {
     if (!this.isAuthenticated()) {
@@ -17,8 +17,12 @@ export class AuthGuardService implements CanActivate {
     return true;
   }
 
-  isAuthenticated() {
-    return localStorage.getItem('authToken') ? true : false;
+  isAuthenticated()  {
+    if (this.auth.currentUser) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
 }

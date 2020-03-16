@@ -5,6 +5,14 @@ import { MatDialogRef } from '@angular/material';
 import { AddUserComponent } from '../add-user/add-user.component';
 import { PasswordValidation } from 'src/app/helpers/password-validation';
 
+import 'firebase/auth';
+import 'firebase/database';
+
+import { DatePipe } from '@angular/common'
+
+import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
+
+
 @Component({
   selector: 'app-add-item',
   templateUrl: './add-item.component.html',
@@ -17,9 +25,12 @@ export class AddItemComponent implements OnInit {
   hide = true;
   type = 'meal';
 
-  constructor(private formBuilder: FormBuilder, private auth: AuthenticationService,
-    public dialogRef: MatDialogRef<AddUserComponent>) { }
+  // constructor(private af: AngularFireDatabase, public datepipe: DatePipe) { }
+  // records$: AngularFireList<any[]>;
 
+  constructor(private af: AngularFireDatabase, public datepipe: DatePipe, private formBuilder: FormBuilder, private auth: AuthenticationService,
+    public dialogRef: MatDialogRef<AddUserComponent>) { }
+  addItemForm$: AngularFireList<FormGroup>;
   ngOnInit() {
     this.addItemForm = this.formBuilder.group({
       name: ['', [Validators.required]],
@@ -37,7 +48,8 @@ export class AddItemComponent implements OnInit {
       return;
     }
 
-    this.auth.authenticateUser(this.addItemForm.value.email, this.addItemForm.value.password, true);
+    // this.auth.authenticateUser(this.addItemForm.value.email, this.addItemForm.value.password, true);
+    this.addItemForm$.push(this.addItemForm);
   }
 
   onConfirm(): void {

@@ -37,6 +37,11 @@ import { NewOrderComponent } from './new-order/new-order.component';
 import { ReceiptComponent } from './receipt/receipt.component';
 import { MatChipsModule } from '@angular/material/chips';
 
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireModule } from '@angular/fire';
+import { environment } from '../environments/environment';
+import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -77,9 +82,11 @@ import { MatChipsModule } from '@angular/material/chips';
     MatTabsModule,
     MatDialogModule,
     MatTableModule,
-    MatChipsModule
+    MatChipsModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule
   ],
-  providers: [],
+  providers: [AngularFireDatabase],
   bootstrap: [AppComponent],
   entryComponents: [ConfirmDialogComponent, AddUserComponent, AddItemComponent]
 
