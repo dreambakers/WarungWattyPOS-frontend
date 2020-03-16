@@ -19,6 +19,7 @@ export class ReceiptComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log('hello world');
 
     window.scrollTo(0, 0); 
 
