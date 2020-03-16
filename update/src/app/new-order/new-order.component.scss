@@ -1,0 +1,20 @@
+th:last-child,
+td:last-child,
+th:nth-last-child(2),
+td:nth-last-child(2) {
+    text-align: right;
+}
+
+tfoot{
+    tr {
+        td {
+            padding-top: 2rem;
+        }
+    }
+}
+
+.quantity-input {
+    padding: 0;
+    text-align: right;
+    border: 1px solid white;
+}

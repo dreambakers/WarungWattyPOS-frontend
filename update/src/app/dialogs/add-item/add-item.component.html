@@ -1,0 +1,54 @@
+<h1 mat-dialog-title>
+    Add new meal/item
+</h1>
+
+<div mat-dialog-content>
+    <form class="form-signin" [formGroup]="addItemForm" (ngSubmit)="onSubmit()">
+
+        <div class="form-group">
+
+            <label>Name</label>
+
+            <input type="text" formControlName="name" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.name.errors }" placeholder="Enter meal/item name..."
+                required>
+
+            <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                <div *ngIf="f.name.errors.required">Name is required</div>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Price</label>
+
+            <input type="text" formControlName="price" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.price.errors }" placeholder="Enter meal/item price..."
+                required>
+
+            <div *ngIf="submitted && f.price.errors" class="invalid-feedback">
+                <div *ngIf="f.price.errors.required">Price is required</div>
+                <div *ngIf="f.price.errors.pattern">Enter a valid price</div>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Type</label>
+
+            <select id="inputState" class="form-control" formControlName="type" #type>
+                <option value="meal">Meal</option>
+                <option value="item">Item</option>
+            </select>
+
+        </div>
+
+    </form>
+</div>
+
+<div mat-dialog-actions>
+    <button mat-button (click)="onDismiss()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()">Add {{ type.value }}</button>
+</div>
