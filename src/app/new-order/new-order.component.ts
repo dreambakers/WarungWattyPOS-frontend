@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
+
+import 'firebase/auth';
+import 'firebase/database';
 
 @Component({
   selector: 'app-new-order',
@@ -15,14 +19,17 @@ export class NewOrderComponent implements OnInit {
   currentOrder = {
     items: []
   }
-  constructor() { }
+  constructor(private db: AngularFireDatabase) { }
+  orders$: AngularFireList<any[]>;
+
 
   ngOnInit() {
   }
 
   addToOrder(item) {
     this.items = this.items.filter(_item => _item.name !== item.name);
-    this.currentOrder.items.push({...item, quantity: 1});
+    this.currentOrder.items.push({ ...item, quantity: 1 });
+
   }
 
   removeFromOrder(item) {
@@ -40,5 +47,22 @@ export class NewOrderComponent implements OnInit {
     return total.toFixed(2);
   }
 
+  onSubmit() {
+    let usr = JSON.parse(localStorage.getItem('user'));
+    // this.firebaseService.getUsers()
+    // .subscribe(result => {
+    //   this.items = result;
+    // })
+
+   console.log(usr);
+
+    this.db.database.ref('users/' + usr.uid).set({
+      orders: this.currentOrder
+
+    });
+    // this.orders$.push(this.currentOrder);
+
+  }
 
 }
+orders: [1, 2, 3]
