@@ -38,7 +38,7 @@ export class AddUserComponent implements OnInit {
       return;
     }
 
-    this.auth.authenticateUser(this.signupForm.value.email, this.signupForm.value.password, true);
+    // this.auth.authenticateUser(this.signupForm.value.email, this.signupForm.value.password, true);
   }
 
   onConfirm(): void {

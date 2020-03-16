@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    this.auth.SignIn(this.loginForm.value.username, this.loginForm.value.password);
+    this.auth.signIn(this.loginForm.value.username, this.loginForm.value.password);
   }
 
 }

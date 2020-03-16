@@ -5,13 +5,12 @@ import { UtilService } from 'src/app/services/util.service';
 
 export interface User {
   username: string;
-  password: string;
   type: string;
 }
 
 const ELEMENT_DATA: User[] = [
-  {username: 'mhd3v', password: 'abcdefg', type: 'admin'},
-  {username: 'johndoe', password: 'abcdefgh', type: 'user'},
+  {username: 'mhd3v', type: 'admin'},
+  {username: 'johndoe', type: 'user'},
 ];
 
 

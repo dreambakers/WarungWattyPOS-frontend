@@ -37,26 +37,10 @@ import { NewOrderComponent } from './new-order/new-order.component';
 import { ReceiptComponent } from './receipt/receipt.component';
 import { MatChipsModule } from '@angular/material/chips';
 
-//new
-import * as firebase from 'firebase/app';
-
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
-//import 'firebase/auth';
-//import 'firebase/database';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
-
-//firebase.initializeApp(environment.firebaseConfig);
-
-import { DatePipe } from '@angular/common'
-
-import { AuthenticationService } from "./services/authentication.service";
-
-
-
-
-
 
 @NgModule({
   declarations: [
@@ -102,8 +86,7 @@ import { AuthenticationService } from "./services/authentication.service";
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule
   ],
-  providers: [AngularFireDatabase, DatePipe, AuthenticationService
-  ],
+  providers: [AngularFireDatabase],
   bootstrap: [AppComponent],
   entryComponents: [ConfirmDialogComponent, AddUserComponent, AddItemComponent]
 

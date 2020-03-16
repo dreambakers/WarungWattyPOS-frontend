@@ -48,7 +48,7 @@ export class AddItemComponent implements OnInit {
       return;
     }
 
-    this.auth.authenticateUser(this.addItemForm.value.email, this.addItemForm.value.password, true);
+    // this.auth.authenticateUser(this.addItemForm.value.email, this.addItemForm.value.password, true);
     this.addItemForm$.push(this.addItemForm);
   }
 
