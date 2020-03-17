@@ -31,7 +31,7 @@ export class ReceiptComponent implements OnInit {
       const contentDataURL = canvas.toDataURL('image/png')
       let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF  
       var position = 0;
-      pdf.addImage(contentDataURL, 'PNG', 0, 10)
+      pdf.addImage(contentDataURL, 'PNG', 15, 10)
       pdf.save('MYPdf.pdf'); // Generated PDF   
     });
 

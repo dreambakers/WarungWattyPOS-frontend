@@ -38,7 +38,8 @@ export class NewOrderComponent implements OnInit {
 
   addToOrder(item) {
     this.items = this.items.filter(_item => _item.name !== item.name);
-    this.currentOrder.items.push({...item, quantity: 1});
+    this.currentOrder.items.push({ ...item, quantity: 1 });
+
   }
 
   removeFromOrder(item) {
@@ -76,3 +77,4 @@ export class NewOrderComponent implements OnInit {
   }
 
 }
+orders: [1, 2, 3]
