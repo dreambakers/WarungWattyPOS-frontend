@@ -1,52 +1,41 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { UtilService } from './util.service';
-import { AngularFireAuth } from "@angular/fire/auth";
-import { AngularFireDatabase } from '@angular/fire/database';
+import { constants } from '../app.constants';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
-  constructor(private http: HttpClient, private router: Router, private utils: UtilService, private afAuth: AngularFireAuth,
-    private db: AngularFireDatabase) {
+  constructor(private http: HttpClient, private router: Router, private userService: UserService) { }
+
+  authenticateUser(email: string, password: string, signUp = false, userType = 'user') {
+    let requestUrl = `${constants.apiUrl}/user`;
+
+    if (signUp) {
+      requestUrl += '/'
+    }
+    else {
+      requestUrl += '/login'
+    }
+
+    return this.http.post(requestUrl, { email, password, userType }, { observe: 'response' });
   }
 
-  signUp(email, password, userType = 'admin') {
-    return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
-      .then((result) => {
-        this.db.database.ref('users/' + result.user.uid).set({
-          userType
-        });
-        this.router.navigate(['/dashboard']);
-      }).catch((error) => {
-        this.utils.openSnackBar('An error occurred while signing up');
-      });
-  }
-
-  // Sign in with email/password
-  signIn(email, password) {
-    return this.afAuth.auth.signInWithEmailAndPassword(email, password)
-      .then((result) => {
-        this.router.navigate(['/dashboard']);
-      }).catch((error) => {
-        this.utils.openSnackBar('An error occurred while logging in');
-      });
+  getAllUsers() {
+    return this.http.get(`${constants.apiUrl}/user/getAllUsers`);
   }
 
   logout() {
-    localStorage.clear();
-    this.afAuth.auth.signOut().then(
-      res => {
-        this.router.navigateByUrl('');
-      }
-    );
+    this.http.post(`${constants.apiUrl}/user/logout`, {}).subscribe();
+    this.userService.unsetLoggedInUser();
+    this.router.navigateByUrl('');
   }
 
-  getLoggedInUserType() {
-    return this.db.list(`users/${this.afAuth.auth.currentUser.uid}`).valueChanges()
+  isAuthenticated() {
+    return this.userService.getLoggedInUser() ? true : false;
   }
 
 }

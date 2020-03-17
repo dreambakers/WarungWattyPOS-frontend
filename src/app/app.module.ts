@@ -37,11 +37,9 @@ import { NewOrderComponent } from './new-order/new-order.component';
 import { ReceiptComponent } from './receipt/receipt.component';
 import { MatChipsModule } from '@angular/material/chips';
 
-import { AngularFireAuthModule } from '@angular/fire/auth';
-import { AngularFireModule } from '@angular/fire';
-import { environment } from '../environments/environment';
-import { AngularFireDatabase } from '@angular/fire/database';
-import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from '../app/interceptors/token.interceptor';
+import { PastOrdersComponent } from './past-orders/past-orders.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +55,8 @@ import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
     ConfirmDialogComponent,
     AddItemComponent,
     NewOrderComponent,
-    ReceiptComponent
+    ReceiptComponent,
+    PastOrdersComponent
   ],
   imports: [
     BrowserModule,
@@ -84,10 +83,14 @@ import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
     MatDialogModule,
     MatTableModule,
     MatChipsModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireAuthModule
   ],
-  providers: [AngularFireDatabase, AngularFireAuthGuard],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent],
   entryComponents: [ConfirmDialogComponent, AddUserComponent, AddItemComponent]
 

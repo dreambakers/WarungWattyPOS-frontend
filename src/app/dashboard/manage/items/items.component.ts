@@ -2,17 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource, MatDialog } from '@angular/material';
 import { UtilService } from 'src/app/services/util.service';
 import { AddItemComponent } from 'src/app/dialogs/add-item/add-item.component';
+import { ItemService } from 'src/app/services/item.service';
 
 export interface Item {
   name: string;
   type: string;
   price: number;
 }
-
-const ELEMENT_DATA: Item[] = [
-  {name: 'Testing item', type: 'item', price: 23.2},
-  {name: 'Testing meal', type: 'meal', price: 23.2},
-];
 
 @Component({
   selector: 'app-items',
@@ -21,27 +17,50 @@ const ELEMENT_DATA: Item[] = [
 })
 export class ItemsComponent implements OnInit {
 
+  items = [
+    { name: 'Testing item', type: 'item', price: 23.2 },
+    { name: 'Testing meal', type: 'meal', price: 23.2 },
+  ];
+
   displayedColumns: string[] = ['index', 'name', 'type', 'price'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
+  dataSource = new MatTableDataSource(this.items);
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  constructor(public dialog: MatDialog, private utils: UtilService) { }
+  constructor(public dialog: MatDialog, private utils: UtilService, private itemService: ItemService) { }
 
   ngOnInit() {
+    this.itemService.getAllItems().subscribe(
+      (res: any) => {
+        if (res.success) {
+          this.items = res.items;
+          this.dataSource.data = this.items;
+        } else {
+          this.utils.openSnackBar('An error occurred while getting the items');
+        }
+      },
+      err => {
+        this.utils.openSnackBar('An error occurred while getting the items');
+      }
+    );
   }
 
-  addNewItem(){
-
-    // this.utils.confirmDialog('as', 'asd').subscribe();
+  addNewItem() {
     const dialogRef = this.dialog.open(AddItemComponent, {
       minWidth: "400px",
-      // maxWidth: "400px",
-    })
-
-    // return dialogRef.afterClosed();
+    }).afterClosed().subscribe(
+      res => {
+        if (res._id) {
+          this.items.push(res);
+          this.dataSource.data = this.items;
+          this.utils.openSnackBar('Item added successfully');
+        } else {
+          this.utils.openSnackBar('An error occurred while adding the item');
+        }
+      }
+    );
   }
 
 }

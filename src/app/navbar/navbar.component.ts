@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UtilService } from '../services/util.service';
 import { AuthenticationService } from '../services/authentication.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,24 +10,22 @@ import { AuthenticationService } from '../services/authentication.service';
 })
 export class NavbarComponent implements OnInit {
 
-  userType;
+  user;
 
-  constructor(private utils: UtilService, private authService: AuthenticationService) { }
+  constructor(private auth: AuthenticationService, private userService: UserService, private utils: UtilService) { }
 
   ngOnInit() {
-    this.authService.getLoggedInUserType().subscribe(
-      res => {
-        this.userType = res[0];
-      }
-    )
+    this.user = this.userService.getLoggedInUser();
   }
 
   logout() {
     this.utils.confirmDialog('Are you sure?', 'You will be logged out').subscribe(
       res => {
-        this.authService.logout();
+        if (res) {
+          this.auth.logout();
+        }
       }
-    )
+    );
   }
 
 }

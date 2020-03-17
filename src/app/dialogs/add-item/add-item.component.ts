@@ -1,17 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AuthenticationService } from 'src/app/services/authentication.service';
 import { MatDialogRef } from '@angular/material';
 import { AddUserComponent } from '../add-user/add-user.component';
-import { PasswordValidation } from 'src/app/helpers/password-validation';
 
-import 'firebase/auth';
-import 'firebase/database';
-
-import { DatePipe } from '@angular/common'
-
-import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
-
+import { ItemService } from 'src/app/services/item.service';
+import { UtilService } from 'src/app/services/util.service';
 
 @Component({
   selector: 'app-add-item',
@@ -25,12 +18,9 @@ export class AddItemComponent implements OnInit {
   hide = true;
   type = 'meal';
 
-  // constructor(private af: AngularFireDatabase, public datepipe: DatePipe) { }
-  // records$: AngularFireList<any[]>;
-
-  constructor(private af: AngularFireDatabase, public datepipe: DatePipe, private formBuilder: FormBuilder, private auth: AuthenticationService,
+  constructor(private formBuilder: FormBuilder, private itemService: ItemService, private utils: UtilService,
     public dialogRef: MatDialogRef<AddUserComponent>) { }
-  addItemForm$: AngularFireList<FormGroup>;
+
   ngOnInit() {
     this.addItemForm = this.formBuilder.group({
       name: ['', [Validators.required]],
@@ -48,8 +38,22 @@ export class AddItemComponent implements OnInit {
       return;
     }
 
-    // this.auth.authenticateUser(this.addItemForm.value.email, this.addItemForm.value.password, true);
-    this.addItemForm$.push(this.addItemForm);
+    const item = {
+      name: this.addItemForm.value.name,
+      price: this.addItemForm.value.price,
+      type: this.addItemForm.value.type
+    };
+
+    this.itemService.addItem(item).subscribe(
+      (res: any) => {
+        if (res.success) {
+          this.dialogRef.close({...res.item});
+        }
+      },
+      err => {
+        this.utils.openSnackBar('An error occurred while adding the item', 'Retry');
+      }
+    )
   }
 
   onConfirm(): void {

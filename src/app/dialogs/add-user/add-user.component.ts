@@ -3,6 +3,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../services/authentication.service';
 import { PasswordValidation } from '../../helpers/password-validation';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { UtilService } from 'src/app/services/util.service';
+import { UserService } from 'src/app/services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-user',
@@ -16,11 +19,11 @@ export class AddUserComponent implements OnInit {
   hide = true;
 
   constructor(private formBuilder: FormBuilder, private auth: AuthenticationService,
-    public dialogRef: MatDialogRef<AddUserComponent>) { }
+    public dialogRef: MatDialogRef<AddUserComponent>, private utils: UtilService) { }
 
   ngOnInit() {
     this.signupForm = this.formBuilder.group({
-      username: ['', [Validators.required]],
+      email: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]]
     },
@@ -38,7 +41,17 @@ export class AddUserComponent implements OnInit {
       return;
     }
 
-    // this.auth.authenticateUser(this.signupForm.value.email, this.signupForm.value.password, true);
+    this.auth.authenticateUser(this.signupForm.value.email, this.signupForm.value.password, true, 'user').subscribe(
+      response => {
+        if (response.headers.get('x-auth')) {
+          this.dialogRef.close({email: this.signupForm.value.email, type: 'user'});
+        }
+      },
+      errorResponse => {
+        const errorMessage = errorResponse.error.alreadyExists ? 'A user with the same email already exists.' : 'An error occured while signing up.';
+        this.utils.openSnackBar(errorMessage, 'Retry');
+      }
+    );
   }
 
   onConfirm(): void {

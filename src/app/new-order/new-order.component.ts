@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ItemService } from '../services/item.service';
+import { UtilService } from '../services/util.service';
+import { OrderService } from '../services/order.service';
 
 @Component({
   selector: 'app-new-order',
@@ -8,16 +11,29 @@ import { Component, OnInit } from '@angular/core';
 export class NewOrderComponent implements OnInit {
 
   items = [
-    { name: 'Testing item', type: 'item', price: 23.2 },
-    { name: 'Testing meal', type: 'meal', price: 23.2 }
   ];
+
+  itemsCopy;
 
   currentOrder = {
     items: []
   }
-  constructor() { }
+  constructor(private itemService: ItemService, private utils: UtilService, private orderService: OrderService) { }
 
   ngOnInit() {
+    this.itemService.getAllItems().subscribe(
+      (res: any) => {
+        if (res.success) {
+          this.itemsCopy = JSON.stringify(res.items);
+          this.items = res.items;
+        } else {
+          this.utils.openSnackBar('An error occurred while getting the items');
+        }
+      },
+      err => {
+        this.utils.openSnackBar('An error occurred while getting the items');
+      }
+    );
   }
 
   addToOrder(item) {
@@ -40,5 +56,23 @@ export class NewOrderComponent implements OnInit {
     return total.toFixed(2);
   }
 
+  createOrder() {
+
+    const newOrder = {
+      items: this.currentOrder.items.map(item => ({item: item._id, quantity: item.quantity}))
+    };
+
+    this.orderService.addOrder(newOrder).subscribe(
+      (res:any) => {
+        if (res.success) {
+          this.utils.openSnackBar('Order recorded successfully');
+          this.items = JSON.parse(this.itemsCopy);
+          this.currentOrder = {
+            items: []
+          };
+        }
+      }
+    );
+  }
 
 }

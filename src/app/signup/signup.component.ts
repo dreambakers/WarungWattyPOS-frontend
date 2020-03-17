@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthenticationService } from '../services/authentication.service';
 import { PasswordValidation } from '../helpers/password-validation';
+import { UserService } from '../services/user.service';
+import { UtilService } from '../services/util.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -14,7 +17,8 @@ export class SignupComponent implements OnInit {
   submitted = false;
   hide = true;
 
-  constructor(private formBuilder: FormBuilder, private auth: AuthenticationService) { }
+  constructor(private formBuilder: FormBuilder, private auth: AuthenticationService, private utils: UtilService,
+    private userService: UserService, private router: Router) { }
 
   ngOnInit() {
     this.signupForm = this.formBuilder.group({
@@ -36,7 +40,19 @@ export class SignupComponent implements OnInit {
       return;
     }
 
-    this.auth.signUp(this.signupForm.value.username, this.signupForm.value.password);
+    this.auth.authenticateUser(this.signupForm.value.username, this.signupForm.value.password, true, 'admin').subscribe(
+      response => {
+        if (response.headers.get('x-auth')) {
+          const user = { ...response.body, authToken: response.headers.get('x-auth') };
+          this.userService.setLoggedInUser(user);
+          this.router.navigateByUrl('/dashboard');
+        }
+      },
+      errorResponse => {
+        const errorMessage = errorResponse.error.alreadyExists ? 'A user with the same email already exists.' : 'An error occured while signing up.';
+        this.utils.openSnackBar(errorMessage, 'Retry');
+      }
+    );
   }
 
 }

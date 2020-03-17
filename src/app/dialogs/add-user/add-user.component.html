@@ -7,14 +7,14 @@
 
         <div class="form-group">
 
-            <label>Username</label>
+            <label>Email</label>
 
-            <input type="text" formControlName="username" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.username.errors }" placeholder="Username"
+            <input type="text" formControlName="email" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.email.errors }" placeholder="email"
                 required>
 
-            <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                <div *ngIf="f.username.errors.required">Username is required</div>
+            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                <div *ngIf="f.email.errors.required">Email is required</div>
             </div>
 
         </div>
@@ -68,5 +68,5 @@
 
 <div mat-dialog-actions>
     <button mat-button (click)="onDismiss()">Cancel</button>
-    <button mat-raised-button color="primary" (click)="onConfirm()">Add User</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()">Add User</button>
 </div>
