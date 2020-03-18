@@ -1,3 +1,5 @@
+import { environment } from '../environments/environment';
+
 export const constants = {
-    apiUrl: 'http://localhost:3000',
+    apiUrl: environment.production ? 'https://warung-watty.herokuapp.com' : 'http://localhost:3000',
 }
