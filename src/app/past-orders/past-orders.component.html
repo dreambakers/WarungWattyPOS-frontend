@@ -24,6 +24,7 @@
         <div class="d-none border py-3 mt-3 w-50 bg-white" [ngClass]="{'d-block': currentOrder.items.length, 'w-100': !orders.length}">
         <div class="text-center">
             <h4>Order</h4>
+            <small *ngIf="currentOrder.createdAt">{{getParsedDate(currentOrder.createdAt)}}</small>
 
             <div class="p-5">
 

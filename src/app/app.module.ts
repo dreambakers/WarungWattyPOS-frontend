@@ -37,6 +37,8 @@ import { NewOrderComponent } from './new-order/new-order.component';
 import { ReceiptComponent } from './receipt/receipt.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSortModule } from '@angular/material/sort';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from '../app/interceptors/token.interceptor';
@@ -84,7 +86,9 @@ import { PastOrdersComponent } from './past-orders/past-orders.component';
     MatDialogModule,
     MatTableModule,
     MatChipsModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatMenuModule,
+    MatSortModule
   ],
   providers: [
     {

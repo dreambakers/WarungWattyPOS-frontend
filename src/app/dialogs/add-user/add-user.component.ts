@@ -17,6 +17,7 @@ export class AddUserComponent implements OnInit {
   signupForm: FormGroup;
   submitted = false;
   hide = true;
+  type = 'user';
 
   constructor(private formBuilder: FormBuilder, private auth: AuthenticationService,
     public dialogRef: MatDialogRef<AddUserComponent>, private utils: UtilService) { }
@@ -25,7 +26,8 @@ export class AddUserComponent implements OnInit {
     this.signupForm = this.formBuilder.group({
       email: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required]]
+      confirmPassword: ['', [Validators.required]],
+      type: [this.type, [Validators.required]]
     },
     {
       validator: PasswordValidation.MatchPassword // your validation method
@@ -41,10 +43,10 @@ export class AddUserComponent implements OnInit {
       return;
     }
 
-    this.auth.authenticateUser(this.signupForm.value.email, this.signupForm.value.password, true, 'user').subscribe(
+    this.auth.authenticateUser(this.signupForm.value.email, this.signupForm.value.password, true, this.signupForm.value.type).subscribe(
       response => {
         if (response.headers.get('x-auth')) {
-          this.dialogRef.close({email: this.signupForm.value.email, type: 'user'});
+          this.dialogRef.close({email: this.signupForm.value.email, type: this.signupForm.value.type});
         }
       },
       errorResponse => {

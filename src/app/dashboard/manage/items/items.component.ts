@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource, MatDialog } from '@angular/material';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatTableDataSource, MatDialog, MatSort } from '@angular/material';
 import { UtilService } from 'src/app/services/util.service';
 import { AddItemComponent } from 'src/app/dialogs/add-item/add-item.component';
 import { ItemService } from 'src/app/services/item.service';
@@ -22,6 +22,7 @@ export class ItemsComponent implements OnInit {
 
   displayedColumns: string[] = ['index', 'name', 'type', 'price'];
   dataSource = new MatTableDataSource(this.items);
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -35,6 +36,7 @@ export class ItemsComponent implements OnInit {
         if (res.success) {
           this.items = res.items;
           this.dataSource.data = this.items;
+          this.dataSource.sort = this.sort;
         } else {
           this.utils.openSnackBar('An error occurred while getting the items');
         }

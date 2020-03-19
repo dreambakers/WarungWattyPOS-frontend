@@ -15,7 +15,6 @@ export class NewOrderComponent implements OnInit, OnDestroy {
 
   items = [
   ];
-
   itemsCopy;
 
   currentOrder = {
@@ -23,7 +22,8 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   }
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private itemService: ItemService, private utils: UtilService, private orderService: OrderService, private emitterService: EmitterService) { }
+  constructor(private itemService: ItemService, private utils: UtilService, private orderService: OrderService,
+    private emitterService: EmitterService) { }
 
   ngOnInit() {
     this.getItems();
@@ -58,7 +58,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
 
   removeFromOrder(item) {
     this.items.push(item);
-    this.currentOrder.items = this.currentOrder.items.filter(_item => _item.name !== item.name);
+    this.currentOrder.items = this.currentOrder.items.filter(_item => _item._id !== item._id);
   }
 
   getOrderTotal() {
@@ -74,11 +74,11 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   createOrder() {
 
     const newOrder = {
-      items: this.currentOrder.items.map(item => ({item: item._id, quantity: item.quantity}))
+      items: this.currentOrder.items.map(item => ({ item: item._id, quantity: item.quantity }))
     };
 
     this.orderService.addOrder(newOrder).subscribe(
-      (res:any) => {
+      (res: any) => {
         if (res.success) {
           this.emitterService.emit(constants.emitterKeys.orderCreated);
           this.utils.openSnackBar('Order recorded successfully');

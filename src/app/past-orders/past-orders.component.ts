@@ -6,12 +6,14 @@ import { EmitterService } from '../services/emitter.service';
 import { takeUntil } from 'rxjs/operators';
 import { constants } from '../app.constants';
 import { Subject } from 'rxjs';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-past-orders',
   templateUrl: './past-orders.component.html',
   styleUrls: ['./past-orders.component.scss']
 })
+
 export class PastOrdersComponent implements OnInit {
 
   orders = [
@@ -52,6 +54,12 @@ export class PastOrdersComponent implements OnInit {
   }
 
   viewOrder(order) {
+    if(this.currentOrder._id === order._id) {
+      return this.currentOrder = {
+        items: [],
+        _id: null
+      };
+    }
     this.currentOrder = order;
   }
 
@@ -63,6 +71,12 @@ export class PastOrdersComponent implements OnInit {
     }
 
     return total.toFixed(2);
+  }
+
+  getParsedDate(date) {
+    if (date) {
+      return moment(date).format('MMMM Do YYYY, h:mm a');
+    }
   }
 
   ngOnDestroy(): void {

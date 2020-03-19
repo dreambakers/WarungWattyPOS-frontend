@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource, MatDialog } from '@angular/material';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatTableDataSource, MatDialog, MatSort } from '@angular/material';
 import { AddUserComponent } from 'src/app/dialogs/add-user/add-user.component';
 import { UtilService } from 'src/app/services/util.service';
 import { UserService } from 'src/app/services/user.service';
@@ -17,6 +17,7 @@ export class UsersComponent implements OnInit {
 
   displayedColumns: string[] = ['index', 'email', 'type'];
   dataSource = new MatTableDataSource(this.users);
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -30,6 +31,7 @@ export class UsersComponent implements OnInit {
         if (res.success) {
           this.users = res.users;
           this.dataSource.data = this.users;
+          this.dataSource.sort = this.sort;
         } else {
           this.utils.openSnackBar('An error occurred while getting the users');
         }
