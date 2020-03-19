@@ -3,7 +3,7 @@
 
     <i class="text-muted" *ngIf="!orders.length"><h5>No past orders found</h5></i>
 
-    <div class="d-flex flex-row justify-content-between align-items-center">
+    <div class="d-flex flex-row justify-content-between align-items-start">
 
         <div class="w-100" [class.w-45]="currentOrder.items.length" style="transition: width 0.5s; height: 1s;"
             *ngIf="orders.length">
@@ -11,7 +11,7 @@
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <a>{{ order._id }}</a>
                     <div class="d-flex flex-row align-items-center">
-                        <button mat-fab color="primary" matTooltip="View order" class="p-0"
+                        <button mat-fab color="{{order._id === currentOrder._id ? 'accent' : 'primary'}}" matTooltip="View order" class="p-0"
                             (click)="viewOrder(order)">
                             <mat-icon class="">visibility</mat-icon>
                         </button>
@@ -21,7 +21,7 @@
             </ul>
         </div>
 
-        <div class="d-none border py-3 w-50" [ngClass]="{'d-block': currentOrder.items.length, 'w-100': !orders.length}">
+        <div class="d-none border py-3 mt-3 w-50 bg-white" [ngClass]="{'d-block': currentOrder.items.length, 'w-100': !orders.length}">
         <div class="text-center">
             <h4>Order</h4>
 

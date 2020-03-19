@@ -18,8 +18,6 @@ export interface Item {
 export class ItemsComponent implements OnInit {
 
   items = [
-    { name: 'Testing item', type: 'item', price: 23.2 },
-    { name: 'Testing meal', type: 'meal', price: 23.2 },
   ];
 
   displayedColumns: string[] = ['index', 'name', 'type', 'price'];
