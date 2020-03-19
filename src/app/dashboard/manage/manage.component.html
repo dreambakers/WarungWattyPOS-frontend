@@ -6,7 +6,6 @@
         <mat-radio-button value="items">Meals/Items</mat-radio-button>
     </mat-radio-group>
 
-
-    <app-users *ngIf="selected === 'users'"></app-users>
-    <app-items *ngIf="selected === 'items'"></app-items>
+    <app-users [hidden]="selected === 'items'"></app-users>
+    <app-items [hidden]="selected === 'users'"></app-items>
 </div>

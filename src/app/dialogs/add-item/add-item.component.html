@@ -10,7 +10,7 @@
             <label>Name</label>
 
             <input type="text" formControlName="name" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.name.errors }" placeholder="Enter meal/item name..."
+                [ngClass]="{ 'is-invalid': submitted && f.name.errors }" placeholder="Enter {{ type.value }} name..."
                 required>
 
             <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
@@ -24,7 +24,7 @@
             <label>Price</label>
 
             <input type="text" formControlName="price" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.price.errors }" placeholder="Enter meal/item price..."
+                [ngClass]="{ 'is-invalid': submitted && f.price.errors }" placeholder="Enter {{ type.value }} price..."
                 required>
 
             <div *ngIf="submitted && f.price.errors" class="invalid-feedback">
