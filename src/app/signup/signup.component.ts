@@ -16,6 +16,7 @@ export class SignupComponent implements OnInit {
   signupForm: FormGroup;
   submitted = false;
   hide = true;
+  loading = false;
 
   constructor(private formBuilder: FormBuilder, private auth: AuthenticationService, private utils: UtilService,
     private userService: UserService, private router: Router) { }
@@ -40,15 +41,20 @@ export class SignupComponent implements OnInit {
       return;
     }
 
+    this.loading = true;
     this.auth.authenticateUser(this.signupForm.value.username, this.signupForm.value.password, true, 'admin').subscribe(
       response => {
         if (response.headers.get('x-auth')) {
           const user = { ...response.body, authToken: response.headers.get('x-auth') };
           this.userService.setLoggedInUser(user);
           this.router.navigateByUrl('/dashboard');
+        } else {
+          this.loading = false;
+          this.utils.openSnackBar('An error occured while signing up. ', 'Retry');
         }
       },
       errorResponse => {
+        this.loading = false;
         const errorMessage = errorResponse.error.alreadyExists ? 'A user with the same email already exists.' : 'An error occured while signing up.';
         this.utils.openSnackBar(errorMessage, 'Retry');
       }

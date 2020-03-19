@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   submitted = false;
   hide = true;
+  loading = false;
 
   constructor(private auth: AuthenticationService, private formBuilder: FormBuilder, private router: Router,
     private userService: UserService, private utils: UtilService) { }
@@ -33,13 +34,18 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
+    this.loading = true;
     this.auth.authenticateUser(this.loginForm.value.username, this.loginForm.value.password).subscribe((response: any) => {
       if (response.headers.get('x-auth')) {
         const user = { ...response.body, authToken: response.headers.get('x-auth') };
         this.userService.setLoggedInUser(user);
         this.router.navigateByUrl('/dashboard');
+      } else {
+        this.loading = false;
+        this.utils.openSnackBar('An error occured while logging in. ', 'Retry');
       }
     }, (errorResponse: any) => {
+      this.loading = false;
       const errorMessage = errorResponse.error.notFound ? 'No user found against the provided credentials.' : 'An error occured while logging in.';
       this.utils.openSnackBar(errorMessage, 'Retry');
     });
