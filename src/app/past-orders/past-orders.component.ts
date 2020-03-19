@@ -21,9 +21,8 @@ export class PastOrdersComponent implements OnInit {
 
   itemsCopy;
 
-  currentOrder = {
-    items: [],
-    _id: null
+  currentOrder:any = {
+    items: []
   }
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -56,8 +55,7 @@ export class PastOrdersComponent implements OnInit {
   viewOrder(order) {
     if(this.currentOrder._id === order._id) {
       return this.currentOrder = {
-        items: [],
-        _id: null
+        items: []
       };
     }
     this.currentOrder = order;
