@@ -20,7 +20,8 @@ export class PastOrdersComponent implements OnInit {
   itemsCopy;
 
   currentOrder = {
-    items: []
+    items: [],
+    _id: null
   }
   destroy$: Subject<boolean> = new Subject<boolean>();
 
