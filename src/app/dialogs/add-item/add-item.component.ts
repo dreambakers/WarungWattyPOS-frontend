@@ -5,6 +5,8 @@ import { AddUserComponent } from '../add-user/add-user.component';
 
 import { ItemService } from 'src/app/services/item.service';
 import { UtilService } from 'src/app/services/util.service';
+import { EmitterService } from 'src/app/services/emitter.service';
+import { constants } from 'src/app/app.constants';
 
 @Component({
   selector: 'app-add-item',
@@ -19,7 +21,7 @@ export class AddItemComponent implements OnInit {
   type = 'meal';
 
   constructor(private formBuilder: FormBuilder, private itemService: ItemService, private utils: UtilService,
-    public dialogRef: MatDialogRef<AddUserComponent>) { }
+    public dialogRef: MatDialogRef<AddUserComponent>, private emitterService: EmitterService) { }
 
   ngOnInit() {
     this.addItemForm = this.formBuilder.group({
@@ -47,6 +49,7 @@ export class AddItemComponent implements OnInit {
     this.itemService.addItem(item).subscribe(
       (res: any) => {
         if (res.success) {
+          this.emitterService.emit(constants.emitterKeys.itemAdded);
           this.dialogRef.close({...res.item});
         }
       },

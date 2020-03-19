@@ -56,8 +56,6 @@ export class ItemsComponent implements OnInit {
           this.items.push(res);
           this.dataSource.data = this.items;
           this.utils.openSnackBar('Item added successfully');
-        } else {
-          this.utils.openSnackBar('An error occurred while adding the item');
         }
       }
     );

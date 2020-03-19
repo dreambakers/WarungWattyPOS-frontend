@@ -1,14 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ItemService } from '../services/item.service';
 import { UtilService } from '../services/util.service';
 import { OrderService } from '../services/order.service';
-
+import { EmitterService } from '../services/emitter.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { constants } from '../app.constants';
 @Component({
   selector: 'app-new-order',
   templateUrl: './new-order.component.html',
   styleUrls: ['./new-order.component.scss']
 })
-export class NewOrderComponent implements OnInit {
+export class NewOrderComponent implements OnInit, OnDestroy {
 
   items = [
   ];
@@ -18,14 +21,25 @@ export class NewOrderComponent implements OnInit {
   currentOrder = {
     items: []
   }
-  constructor(private itemService: ItemService, private utils: UtilService, private orderService: OrderService) { }
+  destroy$: Subject<boolean> = new Subject<boolean>();
+
+  constructor(private itemService: ItemService, private utils: UtilService, private orderService: OrderService, private emitterService: EmitterService) { }
 
   ngOnInit() {
+    this.getItems();
+    this.emitterService.emittter.pipe(takeUntil(this.destroy$)).subscribe((event) => {
+      if (event === constants.emitterKeys.itemAdded) {
+        this.getItems();
+      }
+    });
+  }
+
+  getItems() {
     this.itemService.getAllItems().subscribe(
       (res: any) => {
         if (res.success) {
           this.itemsCopy = JSON.stringify(res.items);
-          this.items = res.items;
+          this.items = res.items.reverse();
         } else {
           this.utils.openSnackBar('An error occurred while getting the items');
         }
@@ -66,6 +80,7 @@ export class NewOrderComponent implements OnInit {
     this.orderService.addOrder(newOrder).subscribe(
       (res:any) => {
         if (res.success) {
+          this.emitterService.emit(constants.emitterKeys.orderCreated);
           this.utils.openSnackBar('Order recorded successfully');
           this.items = JSON.parse(this.itemsCopy);
           this.currentOrder = {
@@ -76,5 +91,9 @@ export class NewOrderComponent implements OnInit {
     );
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
 }
-orders: [1, 2, 3]

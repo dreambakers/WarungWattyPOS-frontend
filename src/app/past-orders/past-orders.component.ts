@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ItemService } from '../services/item.service';
 import { UtilService } from '../services/util.service';
 import { OrderService } from '../services/order.service';
+import { EmitterService } from '../services/emitter.service';
+import { takeUntil } from 'rxjs/operators';
+import { constants } from '../app.constants';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-past-orders',
@@ -18,13 +22,24 @@ export class PastOrdersComponent implements OnInit {
   currentOrder = {
     items: []
   }
-  constructor(private itemService: ItemService, private utils: UtilService, private orderService: OrderService) { }
+  destroy$: Subject<boolean> = new Subject<boolean>();
+
+  constructor(private utils: UtilService, private orderService: OrderService, private emitterService: EmitterService) { }
 
   ngOnInit() {
+    this.getAllOrders();
+    this.emitterService.emittter.pipe(takeUntil(this.destroy$)).subscribe((event) => {
+      if (event === constants.emitterKeys.orderCreated) {
+        this.getAllOrders();
+      }
+    });
+  }
+
+  getAllOrders() {
     this.orderService.getAllOrders().subscribe(
       (res: any) => {
         if (res.success) {
-          this.orders = res.orders;
+          this.orders = res.orders.reverse();
         } else {
           this.utils.openSnackBar('An error occurred while getting the orders');
         }
@@ -34,16 +49,6 @@ export class PastOrdersComponent implements OnInit {
       }
     );
   }
-
-  // addToOrder(item) {
-  //   this.items = this.items.filter(_item => _item.name !== item.name);
-  //   this.currentOrder.items.push({...item, quantity: 1});
-  // }
-
-  // removeFromOrder(item) {
-  //   this.items.push(item);
-  //   this.currentOrder.items = this.currentOrder.items.filter(_item => _item.name !== item.name);
-  // }
 
   viewOrder(order) {
     this.currentOrder = order;
@@ -57,6 +62,11 @@ export class PastOrdersComponent implements OnInit {
     }
 
     return total.toFixed(2);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
 }
