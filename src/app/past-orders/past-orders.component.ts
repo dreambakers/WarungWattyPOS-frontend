@@ -7,6 +7,7 @@ import { takeUntil } from 'rxjs/operators';
 import { constants } from '../app.constants';
 import { Subject } from 'rxjs';
 import * as moment from 'moment';
+import { PDF } from '../common/pdf';
 
 @Component({
   selector: 'app-past-orders',
@@ -75,6 +76,10 @@ export class PastOrdersComponent implements OnInit {
     if (date) {
       return moment(date).format('MMMM Do YYYY, h:mm a');
     }
+  }
+
+  generatePdf() {
+    new PDF().generatePdf(this.currentOrder);
   }
 
   ngOnDestroy(): void {

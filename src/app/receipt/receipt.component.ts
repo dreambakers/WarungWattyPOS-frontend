@@ -5,6 +5,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 import * as jspdf from 'jspdf';
 import html2canvas from 'html2canvas';
+import { PDF } from '../common/pdf';
 
 @Component({
   selector: 'app-receipt',
@@ -19,22 +20,11 @@ export class ReceiptComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('hello world');
 
-    window.scrollTo(0, 0); 
+  }
 
-
-    var data = document.getElementById('print');
-    html2canvas(data).then(canvas => {
-      // Few necessary setting options  
-
-      const contentDataURL = canvas.toDataURL('image/png')
-      let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF  
-      var position = 0;
-      pdf.addImage(contentDataURL, 'PNG', 15, 10)
-      pdf.save('MYPdf.pdf'); // Generated PDF   
-    });
-
+  generatePdf() {
+   new PDF().generatePdf(null);
   }
 
 

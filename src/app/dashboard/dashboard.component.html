@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
 
-<div class="container-fluid">
+<div>
     <mat-tab-group>
         <mat-tab label="Manage" *ngIf="user && user.type === 'admin'">
             <app-manage></app-manage>
@@ -14,6 +14,4 @@
             <app-past-orders></app-past-orders>
         </mat-tab>
     </mat-tab-group>
-
-
 </div>

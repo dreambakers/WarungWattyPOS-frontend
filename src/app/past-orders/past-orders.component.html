@@ -1,7 +1,9 @@
 <div class="p-5">
     <h3>Past Orders</h3>
 
-    <i class="text-muted" *ngIf="!orders.length"><h5>No past orders found</h5></i>
+    <i class="text-muted" *ngIf="!orders.length">
+        <h5>No past orders found</h5>
+    </i>
 
     <div class="d-flex flex-row justify-content-between align-items-start">
 
@@ -11,8 +13,8 @@
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <a>{{ order._id }}</a>
                     <div class="d-flex flex-row align-items-center">
-                        <button mat-fab color="{{order._id === currentOrder._id ? 'accent' : 'primary'}}" matTooltip="View order" class="p-0"
-                            (click)="viewOrder(order)">
+                        <button mat-fab color="{{order._id === currentOrder._id ? 'accent' : 'primary'}}"
+                            matTooltip="View order" class="p-0" (click)="viewOrder(order)">
                             <mat-icon class="">visibility</mat-icon>
                         </button>
 
@@ -21,49 +23,54 @@
             </ul>
         </div>
 
-        <div class="d-none border py-3 mt-3 w-50 bg-white" [ngClass]="{'d-block': currentOrder.items.length, 'w-100': !orders.length}">
-        <div class="text-center">
-            <h4>Order</h4>
-            <small *ngIf="currentOrder.createdAt">{{getParsedDate(currentOrder.createdAt)}}</small>
+        <div class="d-none border py-3 mt-3 w-50 bg-white"
+            [ngClass]="{'d-block': currentOrder.items.length, 'w-100': !orders.length}">
+            <div class="text-center">
+                <h4>Order</h4>
+                <small *ngIf="currentOrder.createdAt">{{getParsedDate(currentOrder.createdAt)}}</small>
 
-            <div class="p-5">
+                <div class="p-5">
 
-                <table class="w-100 text-left p-5">
-                    <thead>
-                        <tr class="border-bottom">
-                            <th class="w-50">Name</th>
-                            <th class="w-5">Quantity</th>
-                            <th class="w-5">Price</th>
+                    <table class="w-100 text-left p-5">
+                        <thead>
+                            <tr class="border-bottom">
+                                <th class="w-50">Name</th>
+                                <th class="w-5">Quantity</th>
+                                <th class="w-5">Price</th>
+                            </tr>
+                        </thead>
+
+                        <tr *ngFor="let item of currentOrder.items" class="border-bottom">
+                            <td>{{item.item.name}}</td>
+
+                            <td>
+                                {{item.quantity}}
+
+                            </td>
+                            <td>
+                                {{item.item.price}}
+                            </td>
                         </tr>
-                    </thead>
 
-                    <tr *ngFor="let item of currentOrder.items" class="border-bottom">
-                        <td>{{item.item.name}}</td>
+                        <tr></tr>
+                        <tr></tr>
 
-                        <td>
-                            {{item.quantity}}
+                        <tfoot>
+                            <tr>
+                                <td class="font-weight-bold">Total</td>
+                                <td></td>
+                                <td>${{getOrderTotal()}}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
 
-                        </td>
-                        <td>
-                            {{item.item.price}}
-                        </td>
-                    </tr>
-
-                    <tr></tr>
-                    <tr></tr>
-
-                    <tfoot>
-                        <tr>
-                            <td class="font-weight-bold">Total</td>
-                            <td></td>
-                            <td>${{getOrderTotal()}}</td>
-                        </tr>
-                    </tfoot>
-                </table>
             </div>
 
+            <div class="d-flex justify-content-center">
+                <button mat-raised-button color="primary" (click)="generatePdf()">Generate PDF</button>
+            </div>
         </div>
-    </div>
 
     </div>
 </div>

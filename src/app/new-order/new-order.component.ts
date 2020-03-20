@@ -51,9 +51,8 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   }
 
   addToOrder(item) {
-    this.items = this.items.filter(_item => _item.name !== item.name);
+    this.items = this.items.filter(_item => _item._id !== item._id);
     this.currentOrder.items.push({ ...item, quantity: 1 });
-
   }
 
   removeFromOrder(item) {
