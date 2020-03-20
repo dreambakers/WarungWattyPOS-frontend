@@ -11,7 +11,6 @@ import { constants } from 'src/app/app.constants';
 
 @Component({
   selector: 'app-edit-item',
-  template: 'passed in {{data.item}}',
   templateUrl: './edit-item.component.html',
   styleUrls: ['./edit-item.component.scss']
 })
@@ -21,7 +20,7 @@ export class EditItemComponent implements OnInit {
   submitted = false;
   hide = true;
   type = 'meal';
-  
+
   constructor(@Inject(MAT_DIALOG_DATA) public data:any,private formBuilder: FormBuilder, private itemService: ItemService, private utils: UtilService,
     public dialogRef: MatDialogRef<AddUserComponent>, private emitterService: EmitterService) { }
 
