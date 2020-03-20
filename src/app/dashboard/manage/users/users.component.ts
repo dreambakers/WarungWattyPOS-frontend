@@ -15,9 +15,9 @@ export class UsersComponent implements OnInit {
 
   users = [];
 
-  displayedColumns: string[] = ['index', 'email', 'type'];
+  displayedColumns: string[] = ['index', 'email', 'type', 'id'];
   dataSource = new MatTableDataSource(this.users);
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -54,6 +54,28 @@ export class UsersComponent implements OnInit {
         }
       }
     )
+  }
+
+  deleteUser(user) {
+    this.utils.confirmDialog('Are you sure?', 'The selected user will be deleted').subscribe(
+      res => {
+        if (res) {
+          this.authService.deleteUser(user.email).subscribe(
+            (res: any) => {
+              if (res.success) {
+                this.users = this.users.filter(_user => user._id !== _user._id);
+                this.dataSource.data = this.users;
+                this.dataSource.sort = this.sort;
+                this.utils.openSnackBar('User deleted successfully');
+              }
+              else{
+                this.utils.openSnackBar('An error occurred while deleting the user');
+              }
+            }
+          );
+        }
+      }
+    );
   }
 
 }

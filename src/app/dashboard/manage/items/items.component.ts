@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatDialog, MatSort } from '@angular/material';
 import { UtilService } from 'src/app/services/util.service';
 import { AddItemComponent } from 'src/app/dialogs/add-item/add-item.component';
+import { EditItemComponent } from 'src/app/dialogs/edit-item/edit-item.component';
 import { ItemService } from 'src/app/services/item.service';
 
 export interface Item {
@@ -20,7 +21,7 @@ export class ItemsComponent implements OnInit {
   items = [
   ];
 
-  displayedColumns: string[] = ['index', 'name', 'type', 'price'];
+  displayedColumns: string[] = ['index', 'name', 'type', 'price', 'id'];
   dataSource = new MatTableDataSource(this.items);
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
@@ -56,6 +57,28 @@ export class ItemsComponent implements OnInit {
           this.items.push(res);
           this.dataSource.data = this.items;
           this.utils.openSnackBar('Item added successfully');
+        }
+      }
+    );
+  }
+
+  editItem(item){
+    this.dialog.open(EditItemComponent, {
+      minWidth: "400px",
+      data: {
+       item :  item
+      }
+    }).afterClosed().subscribe(
+      res => {
+        if (res) {
+          this.items.forEach((item, index) =>{
+            if(res._id == item._id){
+              item.name = res.name
+              item.price = res.price
+              item.type = res.type
+            }
+          })
+          this.utils.openSnackBar('Item updated successfully');
         }
       }
     );

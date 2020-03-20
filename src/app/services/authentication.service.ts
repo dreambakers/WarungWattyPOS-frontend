@@ -28,6 +28,10 @@ export class AuthenticationService {
     return this.http.get(`${constants.apiUrl}/user/getAllUsers`);
   }
 
+  deleteUser(email : string){
+    return this.http.post(`${constants.apiUrl}/user/delete/`, {email});
+  }
+
   logout() {
     this.http.post(`${constants.apiUrl}/user/logout`, {}).subscribe();
     this.userService.unsetLoggedInUser();

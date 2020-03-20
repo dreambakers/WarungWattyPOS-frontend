@@ -18,6 +18,8 @@ import { ItemsComponent } from './dashboard/manage/items/items.component';
 import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
 import { AddUserComponent } from './dialogs/add-user/add-user.component';
 import { AddItemComponent } from './dialogs/add-item/add-item.component';
+import { EditItemComponent } from './dialogs/edit-item/edit-item.component';
+
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -57,6 +59,7 @@ import { PastOrdersComponent } from './past-orders/past-orders.component';
     AddUserComponent,
     ConfirmDialogComponent,
     AddItemComponent,
+    EditItemComponent,
     NewOrderComponent,
     ReceiptComponent,
     PastOrdersComponent
@@ -98,7 +101,7 @@ import { PastOrdersComponent } from './past-orders/past-orders.component';
     }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ConfirmDialogComponent, AddUserComponent, AddItemComponent]
+  entryComponents: [ConfirmDialogComponent, AddUserComponent, AddItemComponent, EditItemComponent]
 
 })
 export class AppModule { }
