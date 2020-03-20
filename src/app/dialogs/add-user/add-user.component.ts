@@ -46,7 +46,7 @@ export class AddUserComponent implements OnInit {
     this.auth.authenticateUser(this.signupForm.value.email, this.signupForm.value.password, true, this.signupForm.value.type).subscribe(
       response => {
         if (response.headers.get('x-auth')) {
-          this.dialogRef.close({email: this.signupForm.value.email, type: this.signupForm.value.type});
+          this.dialogRef.close(response.body);
         }
       },
       errorResponse => {
