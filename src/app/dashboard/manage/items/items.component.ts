@@ -4,6 +4,8 @@ import { UtilService } from 'src/app/services/util.service';
 import { AddItemComponent } from 'src/app/dialogs/add-item/add-item.component';
 import { EditItemComponent } from 'src/app/dialogs/edit-item/edit-item.component';
 import { ItemService } from 'src/app/services/item.service';
+import { EmitterService } from 'src/app/services/emitter.service';
+import { constants } from 'src/app/app.constants';
 
 export interface Item {
   name: string;
@@ -29,7 +31,7 @@ export class ItemsComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  constructor(public dialog: MatDialog, private utils: UtilService, private itemService: ItemService) { }
+  constructor(public dialog: MatDialog, private utils: UtilService, private itemService: ItemService, private emitterService: EmitterService) { }
 
   ngOnInit() {
     this.itemService.getAllItems().subscribe(
@@ -57,6 +59,7 @@ export class ItemsComponent implements OnInit {
           this.items.push(res);
           this.dataSource.data = this.items;
           this.utils.openSnackBar('Item added successfully');
+          this.emitterService.emit(constants.emitterKeys.itemAdded);
         }
       }
     );
@@ -77,7 +80,8 @@ export class ItemsComponent implements OnInit {
               item.price = res.price
               item.type = res.type
             }
-          })
+          });
+          this.emitterService.emit(constants.emitterKeys.itemUpdated);
           this.utils.openSnackBar('Item updated successfully');
         }
       }

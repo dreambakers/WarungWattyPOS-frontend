@@ -72,7 +72,7 @@ export class PDF {
         let total = 0;
 
         let toReturn: any[] = [[{
-            text: "Warung Watty",
+            text: "Item",
             bold: true,
         },
         {
@@ -89,9 +89,9 @@ export class PDF {
         }]];
 
         for (const item of items) {
-            const itemTotal = item.quantity * item.item.price;
+            const itemTotal = item.quantity * item.price;
             total += itemTotal;
-            toReturn.push([item.item.name, item.quantity, `$${item.item.price}`, `$${itemTotal}`]);
+            toReturn.push([item.name, item.quantity, `$${item.price}`, `$${itemTotal.toFixed(2)}`]);
         }
 
         toReturn.push(['', '', { text: 'Total', bold: true }, { text: `$${total.toFixed(2)}`, bold: true }]);

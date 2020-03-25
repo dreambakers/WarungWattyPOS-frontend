@@ -66,7 +66,7 @@ export class PastOrdersComponent implements OnInit {
     let total = 0;
 
     for (const item of this.currentOrder.items) {
-      total += item.item.price * item.quantity;
+      total += item.price * item.quantity;
     }
 
     return total.toFixed(2);

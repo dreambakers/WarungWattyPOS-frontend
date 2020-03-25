@@ -28,7 +28,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getItems();
     this.emitterService.emittter.pipe(takeUntil(this.destroy$)).subscribe((event) => {
-      if (event === constants.emitterKeys.itemAdded) {
+      if (event === constants.emitterKeys.itemAdded || event === constants.emitterKeys.itemUpdated) {
         this.getItems();
       }
     });
@@ -73,7 +73,7 @@ export class NewOrderComponent implements OnInit, OnDestroy {
   createOrder() {
 
     const newOrder = {
-      items: this.currentOrder.items.map(item => ({ item: item._id, quantity: item.quantity }))
+      items: this.currentOrder.items.map(item => ({ name: item.name, type: item.type, price: item.price, quantity: item.quantity }))
     };
 
     this.orderService.addOrder(newOrder).subscribe(
